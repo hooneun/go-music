@@ -6,7 +6,7 @@ import (
 
 // DBLayer interface
 type DBLayer interface {
-	GetAppProducts() ([]models.Product, error)
+	GetAllProducts() ([]models.Product, error)
 	GetPromos() ([]models.Product, error)
 	GetCustomerByName(string, string) (models.Customer, error)
 	GetCustomerByID(int) (models.Customer, error)
