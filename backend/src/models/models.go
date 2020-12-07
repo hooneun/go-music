@@ -16,6 +16,7 @@ type Product struct {
 type Customer struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
+	Password string `json:"password"`
 	LoggedIn bool   `json:"loggedin"`
 }
 

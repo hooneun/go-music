@@ -2,8 +2,9 @@ package rest
 
 import (
 	"net/http"
+	"strconv"
 
-	"github.com/hooneun/go-music/backend/models"
+	"github.com/hooneun/go-music/backend/src/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hooneun/go-music/backend/src/dblayer"
@@ -71,7 +72,7 @@ func (h *Handler) SignIn(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	customer, err = h.db.SignInUser(customer)
+	customer, err = h.db.SignInUser(customer.Email, customer.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -102,4 +103,56 @@ func (h *Handler) AddUser(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, customer)
+}
+
+// SignOut !
+func (h *Handler) SignOut(c *gin.Context) {
+	if h.db == nil {
+		return
+	}
+	p := c.Param("id")
+	id, err := strconv.Atoi(p)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	err = h.db.SignOutUserByID(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+}
+
+// GetOrders !
+func (h *Handler) GetOrders(c *gin.Context) {
+	if h.db == nil {
+		return
+	}
+	p := c.Param("id")
+	id, err := strconv.Atoi(p)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	orders, err := h.db.GetCustomerOrdersByID(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, orders)
+}
+
+// Charge !
+func (h *Handler) Charge(c *gin.Context) {
+	if h.db == nil {
+		return
+	}
 }

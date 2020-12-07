@@ -1,7 +1,7 @@
 package dblayer
 
 import (
-	"github.com/hooneun/go-music/backend/models"
+	"github.com/hooneun/go-music/backend/src/models"
 )
 
 // DBLayer interface
